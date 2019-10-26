@@ -7,7 +7,7 @@ LABEL maintainer="Shantanu Goel" \
 
 ARG plugins=docker,tls.dns.cloudflare
 
-RUN apk add --no-cache openssh-client git tar curl libcap
+RUN apk add --no-cache openssh-client git tar curl libcap tzdata
 
 RUN curl --silent --show-error --fail --location --header "Accept: application/tar+gzip, application/x-gzip, application/octet-stream" -o - \
       "https://caddyserver.com/download/linux/arm64?plugins=${plugins}&license=personal&telemetry=off" \
@@ -25,10 +25,10 @@ WORKDIR /srv
 ENV CADDY_ENV_TLS_EMAIL="test@test.com"
 RUN chown -R caddy:caddy /srv
 
-USER caddy
+#USER caddy
 
 ADD files/Caddyfile /etc/Caddyfile
 ADD files/index.html /srv/index.html
 
 ENTRYPOINT ["/usr/bin/caddy"]
-CMD ["--conf", "/etc/Caddyfile", "-agree"]
+CMD ["-log", "stdout", "-agree"]
