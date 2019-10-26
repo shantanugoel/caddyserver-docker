@@ -1,0 +1,12 @@
+(tls-config) {
+  tls {$CADDY_ENV_TLS_EMAIL} {
+    dns cloudflare
+    ca https://acme-staging-v02.api.letsencrypt.org/directory
+    wildcard
+  }
+}
+
+test.shantanugoel.com {
+  browse
+  import tls-config
+}
